@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Webpage with CSS + JavaScript</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: #fff;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #ffda79;
+    }
+    p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      max-width: 600px;
+      margin: 20px auto;
+      background: rgba(0,0,0,0.4);
+      padding: 15px;
+      border-radius: 8px;
+    }
+    button {
+      margin: 30px auto;
+      padding: 12px 25px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 25px;
+      background: #ffda79;
+      color: #222;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.3s;
+    }
+    button:hover {
+      transform: scale(1.05);
+      background: #ffc048;
+    }
+    #message {
+      margin-top: 20px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #00ffcc;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+    #message.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to My Page</h1>
+  <p>This version not only has CSS styling, but also JavaScript behavior.
+     Try clicking the button!</p>
+
+  <button id="clickBtn">Click Me</button>
+  <div id="message">🎉 You clicked the button! 🎉</div>
+
+  <script>
+    const btn = document.getElementById("clickBtn");
+    const msg = document.getElementById("message");
+
+    btn.addEventListener("click", () => {
+      msg.classList.add("show");
+      msg.textContent = "🎉 You clicked the button at " + new Date().toLocaleTimeString() + " 🎉";
+
+      // optional: small bounce animation
+      btn.style.transform = "scale(1.2)";
+      setTimeout(() => btn.style.transform = "scale(1)", 200);
+    });
+  </script>
+</body>
+</html>
