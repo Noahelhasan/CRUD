@@ -1,20 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Webpage with CSS + JavaScript</title>
-  <!-- Link external CSS -->
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Items Manager · Vanilla JS CRUD</title>
+  <!-- If you saved the CSS I gave you as styles.css, keep this link. Otherwise paste CSS inline here. -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>Welcome to My Page</h1>
-  <p>This version not only has CSS styling, but also JavaScript behavior.
-     Try clicking the button!</p>
+  <!-- Header / Branding -->
+  <header>
+    <div class="wrap brand">
+      <div class="logo" aria-hidden="true"></div>
+      <h1>Items Manager · Vanilla JS CRUD</h1>
+    </div>
+  </header>
 
-  <button id="clickBtn">Click Me</button>
-  <div id="message">🎉 You clicked the button! 🎉</div>
+  <main class="wrap">
+    <div class="grid">
+      <!-- ========== Left: Form Card ========== -->
+      <section class="card" aria-labelledby="formTitle">
+        <div class="inner">
+          <h2 id="formTitle">Add / Edit Item</h2>
 
-  <!-- Link external JavaScript -->
-  <script src="script.js"></script>
+          <form id="itemForm" autocomplete="off">
+            <input type="hidden" id="itemId" />
+
+            <label for="title">Title</label>
+            <input id="title" placeholder="e.g., Order cups" required />
+
+            <label for="details">Details</label>
+            <textarea id="details" placeholder="Optional notes…"></textarea>
+
+            <div class="row">
+              <div>
+                <label for="priority">Priority</label>
+                <select id="priority">
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="category">Category</label>
+                <select id="category">
+                  <option value="General">General</option>
+                  <option value="Work">Work</option>
+                  <option value="School">School</option>
+                  <option value="Errand">Errand</option>
+                  <option value="Personal">Personal</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div>
+                <label for="due">Due date</label>
+                <input id="due" type="date" />
+              </div>
+              <div>
+                <label style="visibility:hidden">Actions</label>
+                <div class="row">
+                  <button class="btn btn-primary" type="submit" id="saveBtn">Save Item</button>
+                  <button class="btn btn-muted" type="reset" id="resetBtn">Reset</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="notice">Data saves locally in your browser (LocalStorage).</div>
+          </form>
+
+          <!-- Optional export/import controls -->
+          <div style="margin-top:12px; display:flex; gap:10px; align-items:center;">
+            <button id="exportBtn" class="btn btn-muted" type="button">Export JSON</button>
+            <label class="btn btn-muted" style="cursor:pointer;">
+              Import JSON
+              <input id="importInput" type="file" accept="application/json" style="display:none" />
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== Right: List / Table Card ========== -->
+      <section class="card" aria-labelledby="listTitle">
+        <div class="inner">
+          <div class="toolbar">
+            <div class="left">
+              <input id="search" placeholder="Search items… (title, details, category)" />
+              <span class="chip" id="countChip">0 items</span>
+            </div>
+            <div class="right">
+              <select id="sort" title="Sort">
+                <option value="created_desc">Newest</option>
+                <option value="created_asc">Oldest</option>
+                <option value="due_asc">Due date ↑</option>
+                <option value="due_desc">Due date ↓</option>
+                <option value="priority_desc">Priority High→Low</option>
+                <option value="priority_asc">Priority Low→High</option>
+                <option value="title_asc">Title A→Z</option>
+                <option value="title_desc">Title Z→A</option>
+                <option value="category_asc">Category A→Z</option>
+                <option value="category_desc">Category Z→A</option>
+              </select>
+              <button class="btn btn-danger" id="clearAll" type="button">Clear All</button>
+            </div>
+          </div>
+
+          <div class="tableWrap">
+            <table aria-describedby="countChip">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Details</th>
+                  <th>Priority</th>
+                  <th>Category</th>
+                  <th>Due</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+
+            <div class="empty" id="emptyState" hidden>
+              <p>✨ No items yet.</p>
+              <p>Add your first one using the form on the left.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- If you saved the JS as app.js, keep this script tag. Otherwise paste the JS inline here. -->
+  <script src="app.js"></script>
 </body>
 </html>
+
