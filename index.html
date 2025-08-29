@@ -1,27 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Items Manager · Vanilla JS CRUD</title>
-  <!-- If you saved the CSS I gave you as styles.css, keep this link. Otherwise paste CSS inline here. -->
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8" />
+  <meta name=""viewport" content=""width=device-width,initial-scale=1" />
+  <title>⚡ Neon Items Manager · Vanilla JS CRUD</title>
+
+
+  <!-- Styles -->
+   <link rel=""stylesheet" href=""styles.css"" />
+
+
+   <!-- Meta / Icons (optional) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <meta name="theme-color" content="#302b63" />
+    <style>
+     /* Small extras unique to this HTML without touching your main stylesheet */
+     .halo {
+      position: fixed; inset: -10vmax;
+      background:  radial-gradient(40vmax 30vmax at 15% 20%, rgba(255,126,179,.18), transparent 60%),
+                  radial-gradient(45vmax 35vmax at 85% 30%, rgba(101,217,255,.15), transparent 60%),
+                  radial-gradient(35vmax 35vmax at 50% 85%, rgba(255,211,101,.14), transparent 65%);
+      pointer-events: none; z-index: 0;
+      filter: blur(2px);
+      animation: hueRotate 20s linear infinite;
+     }
+     .wrap { position: relative; z-index: 1; }
+     .brand-badges {
+         display:flex; gap:8px; margin-left:auto; align-items:center;
+     }
+     .badge {
+        font-size:11px; padding:6px 10px; border-radius:99px;
+        border:1px solid rgba(255,255,255,.2);
+        background:linear-gradient(90deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+        box-shadow:0 0 10px rgba(101,217,255,.25);
+        letter-spacing:.25;
+     }
+     .divider {
+      height:2px; width:100%; margin:14px 0;
+      background:linear-gradient(90deg, transparent, rgba(255,126,179,.8), rgba(101,217,255,.8), transparent);
+      filter: drop-shadow(0 0 6px rgba(101,217,255,.4));
+      border-radius:999px;
+     }
+     .tip {
+      padding:6px 10px; border-radius:10px; background:rgba(255,255,255,.06); border:1px dashed rgba(255.255.255..18);
+     }
+     .footer-note {
+       opacity:.8; font-size:12px; text-align:center; margin:22px 0 10px;
+    }
+    .glow-ring {
+      position:absolute; inset:-8px; border-radius:20px; pointer-events:none;
+      background: radial-gradient(120px 80px at 12% 0%, rgba(255,126,179,.25), transparent 60%),
+                  radial-gradient(120px 80px at 88% 100%, rgba(101,217,255,.25), transparent 60%);
+      filter: blur(16px);
+    }
+    .panel-title {
+      display:flex; align-items:center; gap:10px;
+    }
+    .panel-title .emoji {
+      font-size:18px; filter: drop-shadow(0 0 6px rgba(255,211,101,.6));
+    }
+    .toolbar .theme-toggle {
+      border:1px solid rgba(255,255,255,.25);
+      border-radius:999px; padding:8px 12px; cursor:pointer;
+      background:rgba(255,255,255,.08); color:#fff; font-weight:600;
+      transition:.2s transform;
+    }
+    .toolbar .theme-toggle:hover { transform: translateY(-2px); }
+  </style>
 </head>
 <body>
-  <!-- Header / Branding -->
+  <!-- Ambient neon halations -->
+  <div class="halo" aria-hidden="true"></div>
+
+  <!-- Header -->
   <header>
     <div class="wrap brand">
       <div class="logo" aria-hidden="true"></div>
-      <h1>Items Manager · Vanilla JS CRUD</h1>
+      <h1>⚡ Neon Items Manager</h1>
+      <div class="brand-badges">
+        <span class="badge">LocalStorage</span>
+        <span class="badge">Keyboard Shortcuts</span>
+        <span class="badge">Export / Import</span>
+      </div>
     </div>
   </header>
 
   <main class="wrap">
     <div class="grid">
-      <!-- ========== Left: Form Card ========== -->
-      <section class="card" aria-labelledby="formTitle">
+      <!-- ========== Form Card ========== -->
+      <section class="card" aria-labelledby="formTitle" style="position:relative; overflow:hidden;">
+        <span class="glow-ring" aria-hidden="true"></span>
         <div class="inner">
-          <h2 id="formTitle">Add / Edit Item</h2>
+          <div class="panel-title">
+            <span class="emoji">📝</span>
+            <h2 id="formTitle">Add / Edit Item</h2>
+          </div>
+          <div class="divider" aria-hidden="true"></div>
 
           <form id="itemForm" autocomplete="off">
             <input type="hidden" id="itemId" />
@@ -68,29 +142,42 @@
               </div>
             </div>
 
-            <div class="notice">Data saves locally in your browser (LocalStorage).</div>
+            <div class="tips" aria-hidden="true">
+              <span class="tip">⌘/Ctrl + K → Focus Search</span>
+              <span class="tip">⌘/Ctrl + S → Save Form</span>
+              <span class="tip">N → New Item</span>
+            </div>
+
+            <div class="notice">Data saves locally in your browser (no server required).</div>
           </form>
 
-          <!-- Optional export/import controls -->
-          <div style="margin-top:12px; display:flex; gap:10px; align-items:center;">
-            <button id="exportBtn" class="btn btn-muted" type="button">Export JSON</button>
+          <!-- Export / Import -->
+          <div class="divider" aria-hidden="true"></div>
+          <div style="display:flex; gap:10px; align-items:center;">
+            <button id="exportBtn" class="btn btn-muted" type="button">⬇️ Export JSON</button>
             <label class="btn btn-muted" style="cursor:pointer;">
-              Import JSON
+              ⬆️ Import JSON
               <input id="importInput" type="file" accept="application/json" style="display:none" />
             </label>
           </div>
         </div>
       </section>
 
-      <!-- ========== Right: List / Table Card ========== -->
-      <section class="card" aria-labelledby="listTitle">
+      <!-- ========== List Card ========== -->
+      <section class="card" aria-labelledby="listTitle" style="position:relative; overflow:hidden;">
+        <span class="glow-ring" aria-hidden="true"></span>
         <div class="inner">
-          <div class="toolbar">
+          <div class="panel-title">
+            <span class="emoji">📋</span>
+            <h2 id="listTitle">Your Items</h2>
+          </div>
+
+          <div class="toolbar" style="margin-top:8px;">
             <div class="left">
               <input id="search" placeholder="Search items… (title, details, category)" />
               <span class="chip" id="countChip">0 items</span>
             </div>
-            <div class="right">
+            <div class="right" style="display:flex;gap:10px;align-items:center;">
               <select id="sort" title="Sort">
                 <option value="created_desc">Newest</option>
                 <option value="created_asc">Oldest</option>
@@ -104,6 +191,11 @@
                 <option value="category_desc">Category Z→A</option>
               </select>
               <button class="btn btn-danger" id="clearAll" type="button">Clear All</button>
+
+              <!-- Theme toggle (doesn't change your app.js) -->
+              <button class="theme-toggle" id="themeToggle" type="button" title="Toggle light/dark">
+                🌗 Theme
+              </button>
             </div>
           </div>
 
@@ -124,17 +216,33 @@
             </table>
 
             <div class="empty" id="emptyState" hidden>
-              <p>✨ No items yet.</p>
-              <p>Add your first one using the form on the left.</p>
+              <p>✨ Nothing here yet.</p>
+              <p>Add your first item with the form on the left.</p>
             </div>
           </div>
         </div>
       </section>
     </div>
+
+    <p class="footer-note">Built with vanilla HTML/CSS/JS • Neon theme + light mode toggle • LocalStorage powered</p>
   </main>
 
-  <!-- If you saved the JS as app.js, keep this script tag. Otherwise paste the JS inline here. -->
+  <!-- Minimal inline JS ONLY for theme toggle; your app logic remains in app.js -->
+  <script>
+    (function(){
+      const btn = document.getElementById('themeToggle');
+      if(!btn) return;
+      btn.addEventListener('click', () => {
+        const root = document.documentElement;
+        const light = root.getAttribute('data-theme') === 'light';
+        if(light) { root.removeAttribute('data-theme'); btn.textContent = '🌗 Theme'; }
+        else { root.setAttribute('data-theme','light'); btn.textContent = '🌙 Theme'; }
+      });
+    })();
+  </script>
+
+  <!-- Your main CRUD logic -->
   <script src="app.js"></script>
 </body>
 </html>
-
+     
